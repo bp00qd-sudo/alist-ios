@@ -42,6 +42,7 @@ fi
 gopsutil_dir="$(go list -m -f '{{.Dir}}' github.com/shirou/gopsutil/v3)"
 gopsutil_copy="$(mktemp -d "$out_dir/gopsutil-ios.XXXXXX")"
 cp -R "$gopsutil_dir/." "$gopsutil_copy/"
+chmod -R u+w "$gopsutil_copy"
 compat_files=(
   cpu/cpu_darwin_cgo.go cpu/cpu_darwin_nocgo.go
   process/process_darwin_cgo.go process/process_darwin_nocgo.go
