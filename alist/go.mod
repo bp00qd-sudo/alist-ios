@@ -76,7 +76,7 @@ require (
 	golang.org/x/crypto v0.46.0
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e
 	golang.org/x/image v0.19.0
-	golang.org/x/mobile v0.0.0-20260821190718-4776eadac327
+	golang.org/x/mobile v0.0.0-20250106192035-c31d5b91ecc3
 	golang.org/x/net v0.48.0
 	golang.org/x/oauth2 v0.34.0
 	golang.org/x/time v0.12.0
@@ -334,5 +334,10 @@ replace github.com/ProtonMail/go-proton-api => github.com/henrybear327/go-proton
 replace github.com/cronokirby/saferith => github.com/Da3zKi7/saferith v0.33.0-fixed
 
 replace github.com/SheltonZhu/115driver => github.com/okatu-loli/115driver v1.2.3-1
+
+// go-m1cpu links macOS IOKit, whose kIOMasterPortDefault symbol is
+// unavailable in the iOS SDK. The local compatibility module keeps the
+// desktop implementation while selecting a no-framework stub for -tags ios.
+replace github.com/shoenig/go-m1cpu => ./third_party/go-m1cpu
 
 tool golang.org/x/mobile/cmd/gobind
