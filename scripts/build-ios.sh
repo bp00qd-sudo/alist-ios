@@ -35,18 +35,32 @@ if [[ "$download_ok" != true ]]; then
 fi
 
 # gopsutil's Darwin cgo files target macOS-only headers (libproc, SMC and
-# mach APIs). The package already ships portable no-cgo implementations, so
-# apply the small iOS build-tag patch before gomobile compiles dependencies.
+# mach APIs). The package already ships portable no-cgo implementations. Copy
+# the module into a build-local directory and use a temporary replace so the
+# read-only module cache is never modified and gomobile's generated module
+# sees the same compatibility source.
 gopsutil_dir="$(go list -m -f '{{.Dir}}' github.com/shirou/gopsutil/v3)"
-patch_tmp="$out_dir/.patch-tmp"
-mkdir -p "$patch_tmp"
-TMPDIR="$patch_tmp" patch -N -p1 -d "$gopsutil_dir" < "$repo_root/patches/gopsutil-ios.patch" || {
-  # A second local invocation is harmless when the patch was applied already.
-  if ! grep -q '^//go:build darwin && cgo && !ios$' "$gopsutil_dir/cpu/cpu_darwin_cgo.go"; then
-    echo "failed to apply gopsutil iOS compatibility patch" >&2
-    exit 1
+gopsutil_copy="$(mktemp -d "$out_dir/gopsutil-ios.XXXXXX")"
+cp -R "$gopsutil_dir/." "$gopsutil_copy/"
+compat_files=(
+  cpu/cpu_darwin_cgo.go cpu/cpu_darwin_nocgo.go
+  process/process_darwin_cgo.go process/process_darwin_nocgo.go
+  mem/mem_darwin_cgo.go mem/mem_darwin_nocgo.go
+  host/host_darwin_cgo.go host/host_darwin_nocgo.go
+)
+for rel in "${compat_files[@]}"; do
+  file="$gopsutil_copy/$rel"
+  if [[ "$rel" == *_cgo.go ]]; then
+    perl -0pi -e 's#//go:build darwin && cgo\n// \+build darwin,cgo#//go:build darwin && cgo && !ios\n// +build darwin,cgo,!ios#' "$file"
+  else
+    perl -0pi -e 's#//go:build darwin && !cgo\n// \+build darwin,!cgo#//go:build (darwin && !cgo) || ios\n// +build darwin,!cgo ios#' "$file"
   fi
-}
+done
+mod_backup="$out_dir/alist-go.mod.before-gopsutil-ios"
+cp go.mod "$mod_backup"
+restore_mod() { cp "$mod_backup" "$go_root/go.mod"; }
+trap restore_mod EXIT
+go mod edit -replace="github.com/shirou/gopsutil/v3=$gopsutil_copy"
 
 # Keep a machine-readable compatibility report even when the package list has
 # errors. This is useful for identifying desktop-only drivers on a new commit.
