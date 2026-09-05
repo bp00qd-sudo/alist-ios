@@ -20,6 +20,10 @@ fi
 
 mkdir -p "$out_dir"
 pushd "$go_root" >/dev/null
+# Go 1.24+ requires the bind generator to be declared as a tool in the
+# current module. Keep this command here as well as the go.mod directive so a
+# fresh checkout remains reproducible with newer Go toolchains.
+go get -tool golang.org/x/mobile/cmd/gobind
 go mod download
 
 # Keep a machine-readable compatibility report even when the package list has
