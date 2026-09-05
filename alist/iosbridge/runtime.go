@@ -24,6 +24,7 @@ import (
 	"github.com/alist-org/alist/v3/cmd/flags"
 	"github.com/alist-org/alist/v3/internal/bootstrap"
 	"github.com/alist-org/alist/v3/internal/conf"
+	alistnet "github.com/alist-org/alist/v3/internal/net"
 	"github.com/alist-org/alist/v3/server"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -239,6 +240,7 @@ func applyMemoryPolicy(limit int64) {
 		conf.Conf.Tasks.Decompress.Workers = 1
 		conf.Conf.Tasks.DecompressUpload.Workers = 1
 		conf.Conf.Tasks.S3Transition.Workers = 1
+		alistnet.DefaultConcurrencyLimit = &alistnet.ConcurrencyLimit{Limit: conf.Conf.MaxConcurrency}
 	}
 }
 
