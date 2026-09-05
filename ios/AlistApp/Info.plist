@@ -29,7 +29,6 @@
 	<string>仅在你开启实验性后台保活时，用于维持可恢复的后台任务。</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>location</string>
 		<string>processing</string>
 		<string>fetch</string>

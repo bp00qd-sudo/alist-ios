@@ -11,7 +11,7 @@ separate from the iOS host so upstream updates can be reviewed and merged indepe
 
 ## Build on macOS
 
-Requirements: Xcode 15+, Go 1.25+, and `gomobile`.
+Requirements: Xcode 15+, Go 1.26+, and `gomobile`.
 
 ```sh
 ./scripts/fetch-web-dist.sh

@@ -50,9 +50,11 @@ may expire quickly; this is an Apple signing limitation rather than an Alist lim
 ## Background behavior
 
 The app schedules resumable `BGProcessingTask` work and uses background `URLSession` transfers where
-possible. The optional audio/location keep-alive mode is experimental, opt-in, battery intensive, and
-still subject to iOS suspension or termination. Every transfer is persisted by Alist's SQLite task
-store so a later foreground launch can resume it.
+possible. The optional location keep-alive mode is experimental, opt-in, battery intensive, and still
+subject to iOS suspension or termination. Audio playback is intentionally not linked in the default
+Xcode 15.4 iPhoneOS build because that SDK does not ship `CoreAudioTypes`; a compatible SDK can add
+it without changing the Go runtime. Every transfer is persisted by Alist's SQLite task store so a
+later foreground launch can resume it.
 
 ## Memory budget
 

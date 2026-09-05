@@ -26,7 +26,7 @@ struct ContentView: View {
                             get: { model.lanEnabled },
                             set: { model.toggleLAN($0) }
                         ))
-                        Toggle("实验性后台保活", isOn: $model.keepAliveEnabled)
+                        Toggle("实验性后台任务保活", isOn: $model.keepAliveEnabled)
                         Button("刷新内存统计") { model.refreshMemory() }
                     } label: {
                         Image(systemName: "gearshape")
