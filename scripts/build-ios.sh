@@ -48,6 +48,10 @@ compat_files=(
   mem/mem_darwin_cgo.go mem/mem_darwin_nocgo.go
   host/host_darwin_cgo.go host/host_darwin_nocgo.go
 )
+# These C translation units are picked up by the Go package even when their
+# companion cgo Go files are excluded. They target macOS-only SMC/iostat APIs;
+# remove them from the disposable copy so iOS uses the no-cgo implementations.
+rm -f "$gopsutil_copy/disk/iostat_darwin.c" "$gopsutil_copy/host/smc_darwin.c"
 for rel in "${compat_files[@]}"; do
   file="$gopsutil_copy/$rel"
   chmod u+w "$file"
