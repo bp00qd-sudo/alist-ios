@@ -19,7 +19,8 @@ Requirements: Xcode 15+, Go 1.26+, and `gomobile`.
 open ios/AlistApp/AlistApp.xcodeproj
 ```
 
-The build script creates `build/AlistCore.xcframework` and copies it into the Xcode project.
+The build script creates `build/AlistCore.xcframework`; the Xcode project references that path
+directly, so no manual framework copy is needed.
 The IPA export is intentionally manual because the signing identity and provisioning profile belong
 to the device owner. See [`docs/ios-build.md`](docs/ios-build.md) for self-signing and background
 mode notes.
