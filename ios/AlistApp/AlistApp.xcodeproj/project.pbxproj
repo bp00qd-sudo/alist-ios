@@ -20,6 +20,7 @@
 		A10000010000000000000009 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000010000000000000009 /* AVFoundation.framework */; };
 		A1000001000000000000000A /* BackgroundTasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2000001000000000000000A /* BackgroundTasks.framework */; };
 		A1000001000000000000000B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2000001000000000000000B /* CoreLocation.framework */; };
+		A1000001000000000000000E /* CoreAudioTypes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000010000000000000011 /* CoreAudioTypes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		A20000010000000000000009 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A2000001000000000000000A /* BackgroundTasks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BackgroundTasks.framework; path = System/Library/Frameworks/BackgroundTasks.framework; sourceTree = SDKROOT; };
 		A2000001000000000000000B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A20000010000000000000011 /* CoreAudioTypes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioTypes.framework; path = System/Library/Frameworks/CoreAudioTypes.framework; sourceTree = SDKROOT; };
 		A2000001000000000000000C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2000001000000000000000D /* AlistApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AlistApp.entitlements; sourceTree = "<group>"; };
 		A2000001000000000000000E /* Alist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Alist.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +54,7 @@
 				A10000010000000000000009 /* AVFoundation.framework in Frameworks */,
 				A1000001000000000000000A /* BackgroundTasks.framework in Frameworks */,
 				A1000001000000000000000B /* CoreLocation.framework in Frameworks */,
+				A1000001000000000000000E /* CoreAudioTypes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +73,7 @@
 			sourceTree = "<group>";
 		};
 		A40000010000000000000002 /* Sources */ = {isa = PBXGroup; children = (A20000010000000000000001, A20000010000000000000002, A20000010000000000000003, A20000010000000000000004, A20000010000000000000005, A2000001000000000000000F, A20000010000000000000010); name = Sources; sourceTree = "<group>"; };
-		A40000010000000000000003 /* Frameworks */ = {isa = PBXGroup; children = (A20000010000000000000006, A20000010000000000000007, A20000010000000000000008, A20000010000000000000009, A2000001000000000000000A, A2000001000000000000000B); name = Frameworks; sourceTree = "<group>"; };
+		A40000010000000000000003 /* Frameworks */ = {isa = PBXGroup; children = (A20000010000000000000006, A20000010000000000000007, A20000010000000000000008, A20000010000000000000009, A2000001000000000000000A, A2000001000000000000000B, A20000010000000000000011); name = Frameworks; sourceTree = "<group>"; };
 		A40000010000000000000004 /* Products */ = {isa = PBXGroup; children = (A2000001000000000000000E); name = Products; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
