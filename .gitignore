@@ -1,0 +1,15 @@
+.DS_Store
+.build/
+build/
+*.xcuserstate
+
+# The upstream web distribution is fetched during the build. Keep the small
+# placeholder tree in source control, but do not commit generated bundles.
+alist/public/dist/assets/*
+alist/public/dist/images/*
+alist/public/dist/streamer/*
+alist/public/dist/static/*
+!alist/public/dist/assets/.gitkeep
+!alist/public/dist/images/.gitkeep
+!alist/public/dist/streamer/.gitkeep
+!alist/public/dist/static/.gitkeep
