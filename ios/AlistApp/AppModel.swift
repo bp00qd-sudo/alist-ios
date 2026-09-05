@@ -44,7 +44,9 @@ final class AppModel: ObservableObject {
 
     init() {
         pathMonitor.pathUpdateHandler = { [weak self] _ in
-            Task { @MainActor in self?.refreshLANAddress() }
+            Task { @MainActor [weak self] in
+                self?.refreshLANAddress()
+            }
         }
         pathMonitor.start(queue: monitorQueue)
         refreshLANAddress()
@@ -74,7 +76,12 @@ final class AppModel: ObservableObject {
             let data = try JSONSerialization.data(withJSONObject: options)
             let json = String(decoding: data, as: UTF8.self)
 #if canImport(AlistCore)
-            runtime = try IosbridgeStart(json)
+            var startError: NSError?
+            guard let startedRuntime = IosbridgeStart(json, &startError) else {
+                throw startError ?? NSError(domain: "AlistCore", code: 1,
+                                             userInfo: [NSLocalizedDescriptionKey: "无法启动 Alist Runtime"])
+            }
+            runtime = startedRuntime
             localURL = runtime?.localURL() ?? "http://127.0.0.1:5244"
             started = true
             state = .running
@@ -88,7 +95,7 @@ final class AppModel: ObservableObject {
 
     func stop() {
 #if canImport(AlistCore)
-        runtime?.stop()
+        if let runtime { try? runtime.stop() }
         runtime = nil
 #endif
         started = false
