@@ -32,4 +32,6 @@ jobs:
             build/AlistCore.xcframework
             build/ios-driver-compatibility.txt
             build/ios-m1cpu-why.txt
+            build/x-mobile-module.json
+            build/x-mobile-bind.json
           if-no-files-found: ignore

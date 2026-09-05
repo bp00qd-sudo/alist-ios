@@ -62,6 +62,11 @@ restore_mod() { cp "$mod_backup" "$go_root/go.mod"; }
 trap restore_mod EXIT
 go mod edit -replace="github.com/shirou/gopsutil/v3=$gopsutil_copy"
 
+# Surface module/package resolution in CI before gobind's own loader, whose
+# diagnostics are intentionally terse.
+go list -m -json golang.org/x/mobile > "$out_dir/x-mobile-module.json" || true
+go list -json golang.org/x/mobile/bind > "$out_dir/x-mobile-bind.json" || true
+
 # Keep a machine-readable compatibility report even when the package list has
 # errors. This is useful for identifying desktop-only drivers on a new commit.
 go list -e -tags=ios -f '{{if .Error}}{{.ImportPath}}: {{.Error.Err}}{{end}}' ./... \
