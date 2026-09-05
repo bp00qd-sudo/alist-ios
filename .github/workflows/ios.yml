@@ -40,6 +40,7 @@ jobs:
           name: alist-ios-build
           path: |
             build/AlistCore.xcframework
+            ios/AlistApp/build/Release-iphoneos/Alist.app
             build/ios-driver-compatibility.txt
             build/ios-m1cpu-why.txt
             build/x-mobile-module.json

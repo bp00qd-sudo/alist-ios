@@ -36,7 +36,7 @@ gomobile init
 ```
 
 The script runs an `ios/arm64` build with `-tags=ios`, `-trimpath`, and stripped linker symbols. It
-also writes `build/ios-driver-compatibility.json`, which records the result of the compile probe for
+also writes `build/ios-driver-compatibility.txt`, which records the result of the compile probe for
 the complete upstream driver set. Drivers that need FUSE, WinAPI, or an external executable are kept
 in the registry but return `unsupported on iOS` when selected.
 
