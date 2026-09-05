@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-if ($env:OS -ne 'Darwin') {
+if (-not $IsMacOS) {
     Write-Error 'The iOS archive must be built on macOS with Xcode.'
     exit 2
 }
