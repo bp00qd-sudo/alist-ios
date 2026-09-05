@@ -52,10 +52,14 @@ for rel in "${compat_files[@]}"; do
   file="$gopsutil_copy/$rel"
   chmod u+w "$file"
   if [[ "$rel" == *_cgo.go ]]; then
-    perl -0pi -e 's#//go:build darwin && cgo\n// \+build darwin,cgo#//go:build darwin && cgo && !ios\n// +build darwin,cgo,!ios#' "$file"
+    rewritten="$(perl -0pe 's#//go:build darwin && cgo\n// \+build darwin,cgo#//go:build darwin && cgo && !ios\n// +build darwin,cgo,!ios#' "$file")"
   else
-    perl -0pi -e 's#//go:build darwin && !cgo\n// \+build darwin,!cgo#//go:build (darwin && !cgo) || ios\n// +build darwin,!cgo ios#' "$file"
+    rewritten="$(perl -0pe 's#//go:build darwin && !cgo\n// \+build darwin,!cgo#//go:build (darwin && !cgo) || ios\n// +build darwin,!cgo ios#' "$file")"
   fi
+  # Avoid perl -i: some hosted macOS runners deny temporary-file creation in
+  # both the module cache and the checkout. The source is small enough to
+  # rewrite through stdout and a direct redirection safely.
+  printf '%s\n' "$rewritten" > "$file"
   if ! grep -q '^//go:build .*ios' "$file"; then
     echo "failed to prepare iOS gopsutil source: $rel" >&2
     exit 1
