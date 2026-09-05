@@ -50,10 +50,15 @@ compat_files=(
 )
 for rel in "${compat_files[@]}"; do
   file="$gopsutil_copy/$rel"
+  chmod u+w "$file"
   if [[ "$rel" == *_cgo.go ]]; then
     perl -0pi -e 's#//go:build darwin && cgo\n// \+build darwin,cgo#//go:build darwin && cgo && !ios\n// +build darwin,cgo,!ios#' "$file"
   else
     perl -0pi -e 's#//go:build darwin && !cgo\n// \+build darwin,!cgo#//go:build (darwin && !cgo) || ios\n// +build darwin,!cgo ios#' "$file"
+  fi
+  if ! grep -q '^//go:build .*ios' "$file"; then
+    echo "failed to prepare iOS gopsutil source: $rel" >&2
+    exit 1
   fi
 done
 mod_backup="$out_dir/alist-go.mod.before-gopsutil-ios"
