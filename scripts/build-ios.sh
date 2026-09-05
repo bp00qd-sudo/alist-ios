@@ -31,6 +31,18 @@ pushd "$go_root" >/dev/null
 go get -tool "golang.org/x/mobile/cmd/gobind@${mobile_version}"
 go mod download
 
+# gopsutil's Darwin cgo files target macOS-only headers (libproc, SMC and
+# mach APIs). The package already ships portable no-cgo implementations, so
+# apply the small iOS build-tag patch before gomobile compiles dependencies.
+gopsutil_dir="$(go list -m -f '{{.Dir}}' github.com/shirou/gopsutil/v3)"
+patch -N -p1 -d "$gopsutil_dir" < "$repo_root/patches/gopsutil-ios.patch" || {
+  # A second local invocation is harmless when the patch was applied already.
+  if ! grep -q '^//go:build darwin && cgo && !ios$' "$gopsutil_dir/cpu/cpu_darwin_cgo.go"; then
+    echo "failed to apply gopsutil iOS compatibility patch" >&2
+    exit 1
+  fi
+}
+
 # Keep a machine-readable compatibility report even when the package list has
 # errors. This is useful for identifying desktop-only drivers on a new commit.
 go list -e -tags=ios -f '{{if .Error}}{{.ImportPath}}: {{.Error.Err}}{{end}}' ./... \
