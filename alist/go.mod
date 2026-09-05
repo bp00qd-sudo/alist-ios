@@ -76,7 +76,7 @@ require (
 	golang.org/x/crypto v0.46.0
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e
 	golang.org/x/image v0.19.0
-	golang.org/x/mobile v0.0.0-20250106192035-c31d5b91ecc3
+	golang.org/x/mobile v0.0.0-20260821190718-4776eadac327
 	golang.org/x/net v0.48.0
 	golang.org/x/oauth2 v0.34.0
 	golang.org/x/time v0.12.0
