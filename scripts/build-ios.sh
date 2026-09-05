@@ -20,7 +20,19 @@ fi
 
 mkdir -p "$out_dir"
 pushd "$go_root" >/dev/null
-go mod download
+download_ok=false
+for attempt in 1 2 3; do
+  if go mod download; then
+    download_ok=true
+    break
+  fi
+  echo "go module download failed (attempt ${attempt}/3); retrying..." >&2
+  sleep 5
+done
+if [[ "$download_ok" != true ]]; then
+  echo "unable to download Go dependencies after 3 attempts" >&2
+  exit 1
+fi
 
 # gopsutil's Darwin cgo files target macOS-only headers (libproc, SMC and
 # mach APIs). The package already ships portable no-cgo implementations, so
