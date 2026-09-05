@@ -26,7 +26,9 @@ go mod download
 # mach APIs). The package already ships portable no-cgo implementations, so
 # apply the small iOS build-tag patch before gomobile compiles dependencies.
 gopsutil_dir="$(go list -m -f '{{.Dir}}' github.com/shirou/gopsutil/v3)"
-patch -N -p1 -d "$gopsutil_dir" < "$repo_root/patches/gopsutil-ios.patch" || {
+patch_tmp="$out_dir/.patch-tmp"
+mkdir -p "$patch_tmp"
+TMPDIR="$patch_tmp" patch -N -p1 -d "$gopsutil_dir" < "$repo_root/patches/gopsutil-ios.patch" || {
   # A second local invocation is harmless when the patch was applied already.
   if ! grep -q '^//go:build darwin && cgo && !ios$' "$gopsutil_dir/cpu/cpu_darwin_cgo.go"; then
     echo "failed to apply gopsutil iOS compatibility patch" >&2
