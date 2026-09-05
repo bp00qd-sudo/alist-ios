@@ -26,6 +26,22 @@ struct ContentView: View {
                             get: { model.lanEnabled },
                             set: { model.toggleLAN($0) }
                         ))
+                        Toggle("WebDAV", isOn: Binding(
+                            get: { model.webDAVEnabled },
+                            set: { model.setWebDAVEnabled($0) }
+                        ))
+                        Toggle("S3（实验性）", isOn: Binding(
+                            get: { model.s3Enabled },
+                            set: { model.setS3Enabled($0) }
+                        ))
+                        Toggle("FTP（实验性）", isOn: Binding(
+                            get: { model.ftpEnabled },
+                            set: { model.setFTPEnabled($0) }
+                        ))
+                        Toggle("SFTP（实验性）", isOn: Binding(
+                            get: { model.sftpEnabled },
+                            set: { model.setSFTPEnabled($0) }
+                        ))
                         Toggle("实验性后台任务保活", isOn: $model.keepAliveEnabled)
                         Button("刷新内存统计") { model.refreshMemory() }
                     } label: {

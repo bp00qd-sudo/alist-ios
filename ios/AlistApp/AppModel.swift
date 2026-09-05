@@ -29,6 +29,12 @@ final class AppModel: ObservableObject {
     @Published private(set) var localURL = "http://127.0.0.1:5244"
     @Published private(set) var lanAddress = ""
     @Published var lanEnabled = false
+    // WebDAV is part of the normal Alist HTTP surface; the heavier protocol
+    // listeners stay opt-in to keep idle memory and socket usage low.
+    @Published var webDAVEnabled = true
+    @Published var s3Enabled = false
+    @Published var ftpEnabled = false
+    @Published var sftpEnabled = false
     @Published var keepAliveEnabled = false {
         didSet { keepAlive.setEnabled(keepAliveEnabled) }
     }
@@ -67,10 +73,10 @@ final class AppModel: ObservableObject {
                 "bindAddress": lanEnabled ? "0.0.0.0" : "127.0.0.1",
                 "lanEnabled": lanEnabled,
                 "port": 5244,
-                "webdav": true,
-                "s3": false,
-                "ftp": false,
-                "sftp": false,
+                "webdav": webDAVEnabled,
+                "s3": s3Enabled,
+                "ftp": ftpEnabled,
+                "sftp": sftpEnabled,
                 "memoryLimitBytes": 96 * 1024 * 1024
             ]
             let data = try JSONSerialization.data(withJSONObject: options)
@@ -113,6 +119,32 @@ final class AppModel: ObservableObject {
             state = .failed(error.localizedDescription)
         }
 #endif
+    }
+
+    func setWebDAVEnabled(_ enabled: Bool) {
+        webDAVEnabled = enabled
+        restartIfRunning()
+    }
+
+    func setS3Enabled(_ enabled: Bool) {
+        s3Enabled = enabled
+        restartIfRunning()
+    }
+
+    func setFTPEnabled(_ enabled: Bool) {
+        ftpEnabled = enabled
+        restartIfRunning()
+    }
+
+    func setSFTPEnabled(_ enabled: Bool) {
+        sftpEnabled = enabled
+        restartIfRunning()
+    }
+
+    private func restartIfRunning() {
+        guard started else { return }
+        stop()
+        start()
     }
 
     func refreshMemory() {
